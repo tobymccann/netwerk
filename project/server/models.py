@@ -2,6 +2,7 @@
 
 import datetime
 import jwt
+
 from project.server import app, db, bcrypt
 
 
@@ -46,7 +47,7 @@ class User(db.Model):
     @staticmethod
     def decode_auth_token(auth_token):
         """
-        Decodes the auth token
+        Validates the auth token
         :param auth_token:
         :return: integer|string
         """
@@ -67,7 +68,7 @@ class BlacklistToken(db.Model):
     """
     Token Model for storing JWT tokens
     """
-    __tablename__='blacklist_tokens'
+    __tablename__ = 'blacklist_tokens'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     token = db.Column(db.String(500), unique=True, nullable=False)

@@ -1,8 +1,9 @@
 # project/tests/test_auth.py
 
-import unittest
-import json
 import time
+import json
+import unittest
+
 from project.server import db
 from project.server.models import User, BlacklistToken
 from project.tests.base import BaseTestCase
@@ -18,7 +19,6 @@ def register_user(self, email, password):
         content_type='application/json'
     )
 
-
 def login_user(self, email, password):
     return self.client.post(
         '/auth/login',
@@ -33,7 +33,8 @@ def login_user(self, email, password):
 class TestAuthBlueprint(BaseTestCase):
 
     def test_registration(self):
-        """Test for user registration """
+
+        """ Test for user registration """
         with self.client:
             response = register_user(self, 'joe@gmail.com', '123456')
             data = json.loads(response.data.decode())
@@ -44,6 +45,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertEqual(response.status_code, 201)
 
     def test_registered_with_already_registered_user(self):
+      
         """ Test registration with already registered email """
         user = User(
             email='joe@gmail.com',
@@ -62,6 +64,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertEqual(response.status_code, 202)
 
     def test_registered_user_login(self):
+
         """ Test for login of registered-user """
         with self.client:
             # user registration
@@ -182,6 +185,7 @@ class TestAuthBlueprint(BaseTestCase):
                 data['message'] == 'Signature expired. Please log in again.')
             self.assertEqual(response.status_code, 401)
 
+
     def test_valid_blacklisted_token_logout(self):
         """ Test for logout after a valid token gets blacklisted """
         with self.client:
@@ -221,6 +225,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data['message'] == 'Token blacklisted. Please log in again.')
             self.assertEqual(response.status_code, 401)
 
+
     def test_decode_auth_token(self):
         user = User(
             email='test@test.com',
@@ -232,6 +237,7 @@ class TestAuthBlueprint(BaseTestCase):
         self.assertTrue(isinstance(auth_token, bytes))
         self.assertTrue(User.decode_auth_token(
             auth_token.decode("utf-8")) == 1)
+
 
     def test_valid_blacklisted_token_user(self):
         """ Test for user status with a blacklisted valid token """

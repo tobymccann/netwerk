@@ -2,10 +2,15 @@
 
 [![Build Status](https://travis-ci.org/realpython/flask-jwt-auth.svg?branch=master)](https://travis-ci.org/realpython/flask-jwt-auth)
 
-## Quick Start
+## Want to learn how to build this project?
+
+Check out the [blog post](https://realpython.com/blog/python/token-based-authentication-with-flask/).
+
+## Want to use this project?
 
 ### Basics
 
+1. Fork/Clone
 1. Activate a virtualenv
 1. Install the requirements
 
@@ -23,6 +28,12 @@ or
 $ export APP_SETTINGS="project.server.config.ProductionConfig"
 ```
 
+Set a SECRET_KEY:
+
+```sh
+$ export SECRET_KEY="change_me"
+```
+
 ### Create DB
 
 Create the databases in `psql`:
@@ -30,7 +41,7 @@ Create the databases in `psql`:
 ```sh
 $ psql
 # create database flask_jwt_auth
-# create database flask_jwt_auth_testing
+# create database flask_jwt_auth_test
 # \q
 ```
 
@@ -48,7 +59,7 @@ $ python manage.py db migrate
 $ python manage.py runserver
 ```
 
-So access the application at the address [http://localhost:5000/](http://localhost:5000/)
+Access the application at the address [http://localhost:5000/](http://localhost:5000/)
 
 > Want to specify a different port?
 
