@@ -1,8 +1,7 @@
 # project/server/models.py
 
-
-import jwt
 import datetime
+import jwt
 
 from project.server import app, db, bcrypt
 
@@ -28,6 +27,7 @@ class User(db.Model):
     def encode_auth_token(self, user_id):
         """
         Generates the Auth Token
+        :param user_id:
         :return: string
         """
         try:

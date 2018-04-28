@@ -1,6 +1,5 @@
 # project/server/auth/views.py
 
-
 from flask import Blueprint, request, make_response, jsonify
 from flask.views import MethodView
 
@@ -46,7 +45,7 @@ class RegisterAPI(MethodView):
         else:
             responseObject = {
                 'status': 'fail',
-                'message': 'User already exists. Please Log in.',
+                'message': 'User already exists. Please log in.'
             }
             return make_response(jsonify(responseObject)), 202
 
@@ -131,6 +130,7 @@ class LogoutAPI(MethodView):
     """
     Logout Resource
     """
+
     def post(self):
         # get auth token
         auth_header = request.headers.get('Authorization')

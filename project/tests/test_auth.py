@@ -1,6 +1,5 @@
 # project/tests/test_auth.py
 
-
 import time
 import json
 import unittest
@@ -17,7 +16,7 @@ def register_user(self, email, password):
             email=email,
             password=password
         )),
-        content_type='application/json',
+        content_type='application/json'
     )
 
 def login_user(self, email, password):
@@ -27,13 +26,14 @@ def login_user(self, email, password):
             email=email,
             password=password
         )),
-        content_type='application/json',
+        content_type='application/json'
     )
 
 
 class TestAuthBlueprint(BaseTestCase):
 
     def test_registration(self):
+
         """ Test for user registration """
         with self.client:
             response = register_user(self, 'joe@gmail.com', '123456')
@@ -45,7 +45,8 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertEqual(response.status_code, 201)
 
     def test_registered_with_already_registered_user(self):
-        """ Test registration with already registered email"""
+      
+        """ Test registration with already registered email """
         user = User(
             email='joe@gmail.com',
             password='test'
@@ -57,12 +58,14 @@ class TestAuthBlueprint(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(
-                data['message'] == 'User already exists. Please Log in.')
+                data['message'] == 'User already exists. Please log in.'
+            )
             self.assertTrue(response.content_type == 'application/json')
             self.assertEqual(response.status_code, 202)
 
     def test_registered_user_login(self):
-        """ Test for login of registered-user login """
+
+        """ Test for login of registered-user """
         with self.client:
             # user registration
             resp_register = register_user(self, 'joe@gmail.com', '123456')
@@ -221,6 +224,20 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(data['message'] == 'Token blacklisted. Please log in again.')
             self.assertEqual(response.status_code, 401)
+
+
+    def test_decode_auth_token(self):
+        user = User(
+            email='test@test.com',
+            password='test'
+        )
+        db.session.add(user)
+        db.session.commit()
+        auth_token = user.encode_auth_token(user.id)
+        self.assertTrue(isinstance(auth_token, bytes))
+        self.assertTrue(User.decode_auth_token(
+            auth_token.decode("utf-8")) == 1)
+
 
     def test_valid_blacklisted_token_user(self):
         """ Test for user status with a blacklisted valid token """
